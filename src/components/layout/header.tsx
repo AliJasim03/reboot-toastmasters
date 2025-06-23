@@ -23,7 +23,7 @@ export function Header() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16 lg:h-20">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-3">
+                    <Link href="/public" className="flex items-center space-x-3">
                         <div className="w-12 h-12 lg:w-16 lg:h-16 bg-loyal-blue rounded-full flex items-center justify-center">
                             <span className="text-white font-bold text-lg lg:text-xl">TM</span>
                         </div>
