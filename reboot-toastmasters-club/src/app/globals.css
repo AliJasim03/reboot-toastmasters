@@ -40,6 +40,10 @@
   .input-field {
     @apply w-full px-4 py-3 border border-cool-gray-300 rounded-lg focus:ring-2 focus:ring-loyal-blue focus:border-transparent;
   }
+
+  .toastmasters-disclaimer {
+    @apply text-xs text-cool-gray-500 max-w-4xl mx-auto text-center;
+  }
 }
 
 @layer utilities {

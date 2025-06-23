@@ -64,7 +64,11 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" className={`${montserrat.variable} ${sourceSans.variable} ${corinthia.variable}`}>
+        <html
+            lang="en"
+            className={`${montserrat.variable} ${sourceSans.variable} ${corinthia.variable}`}
+            suppressHydrationWarning
+        >
         <body className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">
