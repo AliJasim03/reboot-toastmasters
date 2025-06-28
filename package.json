@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "reboot-toastmasters-club/node_modules/.bin/next dev --turbopack",
-    "build": "reboot-toastmasters-club/node_modules/.bin/next build",
-    "start": "reboot-toastmasters-club/node_modules/.bin/next start",
-    "lint": "reboot-toastmasters-club/node_modules/.bin/next lint"
+    "dev": "node_modules/.bin/next dev --turbopack",
+    "build": "node_modules/.bin/next build",
+    "start": "node_modules/.bin/next start",
+    "lint": "node_modules/.bin/next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
