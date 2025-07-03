@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800;900&display=swap');
@@ -12,42 +10,174 @@
   }
 
   body {
-    @apply font-body text-cool-gray-800 bg-white;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    color: #374151; /* ui-gray-700 equivalent */
+    background-color: white;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold text-loyal-blue;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: bold;
+    color: #004165; /* loyal-blue */
   }
 }
 
 @layer components {
+  /* Button Components */
   .btn-primary {
-    @apply bg-loyal-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-loyal-blue-600 transition-colors focus:ring-2 focus:ring-loyal-blue focus:ring-offset-2;
+    background-color: #004165;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #003454;
   }
 
   .btn-secondary {
-    @apply bg-white text-loyal-blue border-2 border-loyal-blue px-6 py-3 rounded-lg font-semibold hover:bg-loyal-blue hover:text-white transition-colors;
+    background-color: white;
+    color: #004165;
+    border: 2px solid #004165;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    background-color: #004165;
+    color: white;
   }
 
   .btn-accent {
-    @apply bg-happy-yellow text-loyal-blue px-6 py-3 rounded-lg font-semibold hover:bg-happy-yellow-400 transition-colors;
+    background-color: #F2DF74;
+    color: #004165;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
   }
 
+  .btn-accent:hover {
+    background-color: #ebc849;
+  }
+
+  /* Card Components */
   .card {
-    @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
   }
 
+  .card:hover {
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  }
+
+  /* Form Components */
   .input-field {
-    @apply w-full px-4 py-3 border border-cool-gray-300 rounded-lg focus:ring-2 focus:ring-loyal-blue focus:border-transparent;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
   }
 
+  .input-field:focus {
+    outline: none;
+    border-color: #004165;
+    box-shadow: 0 0 0 3px rgb(0 65 101 / 0.1);
+  }
+
+  /* Toastmasters Disclaimer */
   .toastmasters-disclaimer {
-    @apply text-xs text-cool-gray-500 max-w-4xl mx-auto text-center;
+    font-size: 0.75rem;
+    color: #6b7280;
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Gradient Text Effects */
+  .text-gradient-loyal {
+    background: linear-gradient(135deg, #004165 0%, #002743 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #004165 0%, #772432 50%, #F2DF74 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Custom font utilities that work with Tailwind v4 */
+  .font-montserrat {
+    font-family: 'Montserrat', system-ui, sans-serif;
+  }
+
+  .font-source-sans {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+  }
+
+  .font-corinthia {
+    font-family: 'Corinthia', cursive;
+  }
+
+  /* Color utilities for consistency */
+  .text-loyal-blue {
+    color: #004165;
+  }
+
+  .text-true-maroon {
+    color: #772432;
+  }
+
+  .text-happy-yellow {
+    color: #F2DF74;
+  }
+
+  .text-cool-gray-600 {
+    color: #6f7b7a;
+  }
+
+  .text-cool-gray-700 {
+    color: #5a6564;
+  }
+
+  .text-cool-gray-800 {
+    color: #4a5453;
+  }
+
+  .bg-loyal-blue {
+    background-color: #004165;
+  }
+
+  .bg-true-maroon {
+    background-color: #772432;
+  }
+
+  .bg-happy-yellow {
+    background-color: #F2DF74;
+  }
+
+  .bg-cool-gray-50 {
+    background-color: #f8f9f9;
+  }
+
+  .bg-cool-gray-100 {
+    background-color: #f1f3f2;
   }
 }
