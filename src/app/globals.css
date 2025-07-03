@@ -1,183 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* Tailwind CSS v4 import */
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap');
+/* CSS Custom Properties - Only what's needed beyond Tailwind */
+:root {
+  /* Component-specific variables */
+  --header-height: 4rem;
+  --mobile-header-height: 3.5rem;
+  --sidebar-width: 16rem;
+  --footer-height: 6rem;
 
+  /* Layout variables */
+  --container-padding: 1rem;
+  --section-padding: 4rem;
+  --mobile-section-padding: 2rem;
+
+  /* Animation variables */
+  --animation-speed: 0.3s;
+  --animation-curve: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border radius (matches Tailwind but for consistency) */
+  --radius: 0.5rem;
+}
+
+/* Base styles - Reset and typography */
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  * {
+    @apply border-border;
   }
 
   body {
-    font-family: 'Source Sans 3', system-ui, sans-serif;
-    color: #374151; /* ui-gray-700 equivalent */
-    background-color: white;
+    @apply bg-background text-foreground font-sans antialiased;
+    @apply min-h-screen;
   }
 
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 rounded-md;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+
+  /* Selection styles */
+  ::selection {
+    @apply bg-toastmasters-blue/20 text-toastmasters-blue-900;
+  }
+
+  /* Focus styles */
+  :focus {
+    @apply outline-none ring-2 ring-toastmasters-blue/50 ring-offset-2;
+  }
+
+  /* Typography improvements */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', system-ui, sans-serif;
-    font-weight: bold;
-    color: #004165; /* loyal-blue */
+    @apply font-heading font-semibold text-balance;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+
+  h6 {
+    @apply text-base md:text-lg;
+  }
+
+  p {
+    @apply text-pretty leading-7;
+  }
+
+  /* Link styles */
+  a {
+    @apply text-toastmasters-blue hover:text-toastmasters-blue-700 transition-colors;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    @apply transition-all duration-200;
+  }
+
+  /* Image optimization */
+  img {
+    @apply max-w-full h-auto;
   }
 }
 
+/* Component layer - Reusable component styles */
 @layer components {
-  /* Button Components */
-  .btn-primary {
-    background-color: #004165;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.2s;
+  /* Container utility */
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  .btn-primary:hover {
-    background-color: #003454;
+  /* Section spacing */
+  .section {
+    @apply py-16 lg:py-24;
+  }
+
+  .section-sm {
+    @apply py-12 lg:py-16;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-6;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* Toastmasters-specific components */
+  .toastmasters-gradient {
+    @apply bg-gradient-to-br from-toastmasters-blue to-toastmasters-maroon;
+  }
+
+  .toastmasters-text-gradient {
+    @apply bg-gradient-to-r from-toastmasters-blue to-toastmasters-maroon bg-clip-text text-transparent;
+  }
+
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply bg-toastmasters-blue text-white hover:bg-toastmasters-blue-700;
   }
 
   .btn-secondary {
-    background-color: white;
-    color: #004165;
-    border: 2px solid #004165;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.2s;
+    @apply bg-toastmasters-maroon text-white hover:bg-toastmasters-maroon-700;
   }
 
-  .btn-secondary:hover {
-    background-color: #004165;
-    color: white;
+  .btn-outline {
+    @apply border-2 border-toastmasters-blue text-toastmasters-blue hover:bg-toastmasters-blue hover:text-white;
   }
 
-  .btn-accent {
-    background-color: #F2DF74;
-    color: #004165;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.2s;
+  .btn-ghost {
+    @apply text-toastmasters-blue hover:bg-toastmasters-blue/10;
   }
 
-  .btn-accent:hover {
-    background-color: #ebc849;
+  /* Loading states */
+  .loading {
+    @apply animate-pulse;
   }
 
-  /* Card Components */
-  .card {
-    background-color: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    padding: 1.5rem;
-    transition: box-shadow 0.2s;
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-gray-300 border-t-toastmasters-blue;
   }
 
-  .card:hover {
-    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 
-  /* Form Components */
-  .input-field {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
+  .badge-primary {
+    @apply bg-toastmasters-blue/10 text-toastmasters-blue;
   }
 
-  .input-field:focus {
-    outline: none;
-    border-color: #004165;
-    box-shadow: 0 0 0 3px rgb(0 65 101 / 0.1);
+  .badge-secondary {
+    @apply bg-toastmasters-maroon/10 text-toastmasters-maroon;
   }
 
-  /* Toastmasters Disclaimer */
-  .toastmasters-disclaimer {
-    font-size: 0.75rem;
-    color: #6b7280;
-    max-width: 56rem;
-    margin: 0 auto;
-    text-align: center;
+  .badge-success {
+    @apply bg-green-100 text-green-800;
   }
 
-  /* Gradient Text Effects */
-  .text-gradient-loyal {
-    background: linear-gradient(135deg, #004165 0%, #002743 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
   }
 
-  .text-gradient-brand {
-    background: linear-gradient(135deg, #004165 0%, #772432 50%, #F2DF74 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .badge-error {
+    @apply bg-red-100 text-red-800;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply text-gray-700 hover:text-toastmasters-blue transition-colors duration-200;
+  }
+
+  .nav-link-active {
+    @apply text-toastmasters-blue font-medium;
+  }
+
+  /* Form styles */
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  .form-input {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-toastmasters-blue focus:ring-toastmasters-blue sm:text-sm;
+  }
+
+  .form-error {
+    @apply text-sm text-red-600 mt-1;
+  }
+
+  /* Meeting-specific styles */
+  .meeting-card {
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300;
+  }
+
+  .meeting-status {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .meeting-status-upcoming {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .meeting-status-completed {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .meeting-status-cancelled {
+    @apply bg-red-100 text-red-800;
+  }
+
+  /* Member styles */
+  .member-avatar {
+    @apply w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-medium;
+  }
+
+  .pathways-level {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-toastmasters-blue/10 text-toastmasters-blue;
+  }
+
+  /* Responsive text sizing */
+  .text-responsive-sm {
+    @apply text-sm md:text-base;
+  }
+
+  .text-responsive-base {
+    @apply text-base md:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg md:text-xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl md:text-2xl;
+  }
+
+  .text-responsive-2xl {
+    @apply text-2xl md:text-3xl;
+  }
+
+  .text-responsive-3xl {
+    @apply text-3xl md:text-4xl lg:text-5xl;
   }
 }
 
+/* Utility layer - Custom utilities */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 
-  /* Custom font utilities that work with Tailwind v4 */
-  .font-montserrat {
-    font-family: 'Montserrat', system-ui, sans-serif;
+  .text-pretty {
+    text-wrap: pretty;
   }
 
-  .font-source-sans {
-    font-family: 'Source Sans 3', system-ui, sans-serif;
+  /* Custom animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
   }
 
-  .font-corinthia {
-    font-family: 'Corinthia', cursive;
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-in-out;
   }
 
-  /* Color utilities for consistency */
-  .text-loyal-blue {
-    color: #004165;
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-in-out;
   }
 
-  .text-true-maroon {
-    color: #772432;
+  /* Gradient utilities */
+  .gradient-loyal-blue {
+    background: linear-gradient(180deg, #004165 0%, #006094 100%);
   }
 
-  .text-happy-yellow {
-    color: #F2DF74;
+  .gradient-true-maroon {
+    background: linear-gradient(180deg, #3B0104 0%, #781327 100%);
   }
 
-  .text-cool-gray-600 {
-    color: #6f7b7a;
+  .gradient-cool-gray {
+    background: linear-gradient(180deg, #A9B2B1 0%, #F5F5F5 100%);
   }
 
-  .text-cool-gray-700 {
-    color: #5a6564;
+  .gradient-hero {
+    background: linear-gradient(135deg, #004165 0%, #006094 50%, #772432 100%);
   }
 
-  .text-cool-gray-800 {
-    color: #4a5453;
+  /* Aspect ratio utilities */
+  .aspect-video {
+    aspect-ratio: 16 / 9;
   }
 
-  .bg-loyal-blue {
-    background-color: #004165;
+  .aspect-square {
+    aspect-ratio: 1 / 1;
   }
 
-  .bg-true-maroon {
-    background-color: #772432;
+  .aspect-photo {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    @apply hidden;
   }
 
-  .bg-happy-yellow {
-    background-color: #F2DF74;
+  .print-only {
+    @apply block;
   }
 
-  .bg-cool-gray-50 {
-    background-color: #f8f9f9;
+  * {
+    @apply text-black bg-white;
   }
 
-  .bg-cool-gray-100 {
-    background-color: #f1f3f2;
+  a {
+    @apply text-black no-underline;
+  }
+
+  .toastmasters-gradient {
+    @apply bg-gray-100;
   }
 }

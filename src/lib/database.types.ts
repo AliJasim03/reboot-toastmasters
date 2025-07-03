@@ -6,6 +6,15 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Database enums
+export type MembershipStatus = 'Active' | 'Inactive' | 'Guest'
+export type MeetingType = 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
+export type MeetingStatus = 'Scheduled' | 'Completed' | 'Cancelled'
+export type EventType = 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
+export type EventStatus = 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
+export type AttendanceStatus = 'attending' | 'not_attending' | 'maybe'
+
+// Database schema interface
 export interface Database {
   public: {
     Tables: {
@@ -16,7 +25,7 @@ export interface Database {
           email: string
           phone: string | null
           join_date: string
-          membership_status: 'Active' | 'Inactive' | 'Guest'
+          membership_status: MembershipStatus
           toastmasters_id: string | null
           pathways_level: number | null
           awards: Json[]
@@ -35,7 +44,7 @@ export interface Database {
           email: string
           phone?: string | null
           join_date: string
-          membership_status?: 'Active' | 'Inactive' | 'Guest'
+          membership_status?: MembershipStatus
           toastmasters_id?: string | null
           pathways_level?: number | null
           awards?: Json[]
@@ -54,7 +63,7 @@ export interface Database {
           email?: string
           phone?: string | null
           join_date?: string
-          membership_status?: 'Active' | 'Inactive' | 'Guest'
+          membership_status?: MembershipStatus
           toastmasters_id?: string | null
           pathways_level?: number | null
           awards?: Json[]
@@ -73,7 +82,7 @@ export interface Database {
           id: string
           date: string
           theme: string
-          type: 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
+          type: MeetingType
           location: string
           attendance: number
           speakers: Json[]
@@ -84,7 +93,7 @@ export interface Database {
           highlights: Json[]
           photos: Json[]
           agenda: Json
-          status: 'Scheduled' | 'Completed' | 'Cancelled'
+          status: MeetingStatus
           meeting_minutes: string | null
           created_at: string
           updated_at: string
@@ -93,7 +102,7 @@ export interface Database {
           id?: string
           date: string
           theme: string
-          type?: 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
+          type?: MeetingType
           location: string
           attendance?: number
           speakers?: Json[]
@@ -104,7 +113,7 @@ export interface Database {
           highlights?: Json[]
           photos?: Json[]
           agenda?: Json
-          status?: 'Scheduled' | 'Completed' | 'Cancelled'
+          status?: MeetingStatus
           meeting_minutes?: string | null
           created_at?: string
           updated_at?: string
@@ -113,7 +122,7 @@ export interface Database {
           id?: string
           date?: string
           theme?: string
-          type?: 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
+          type?: MeetingType
           location?: string
           attendance?: number
           speakers?: Json[]
@@ -124,7 +133,7 @@ export interface Database {
           highlights?: Json[]
           photos?: Json[]
           agenda?: Json
-          status?: 'Scheduled' | 'Completed' | 'Cancelled'
+          status?: MeetingStatus
           meeting_minutes?: string | null
           created_at?: string
           updated_at?: string
@@ -139,7 +148,7 @@ export interface Database {
           start_time: string
           end_time: string
           location: string
-          type: 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
+          type: EventType
           is_public: boolean
           max_attendees: number | null
           current_attendees: number
@@ -148,9 +157,9 @@ export interface Database {
           organizer: string
           cost: number | null
           images: Json[]
-          agenda: Json[] | null
+          agenda: Json | null
           attendees: Json[]
-          status: 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
+          status: EventStatus
           created_at: string
           updated_at: string
         }
@@ -162,7 +171,7 @@ export interface Database {
           start_time: string
           end_time: string
           location: string
-          type?: 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
+          type?: EventType
           is_public?: boolean
           max_attendees?: number | null
           current_attendees?: number
@@ -171,9 +180,9 @@ export interface Database {
           organizer: string
           cost?: number | null
           images?: Json[]
-          agenda?: Json[] | null
+          agenda?: Json | null
           attendees?: Json[]
-          status?: 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
+          status?: EventStatus
           created_at?: string
           updated_at?: string
         }
@@ -185,7 +194,7 @@ export interface Database {
           start_time?: string
           end_time?: string
           location?: string
-          type?: 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
+          type?: EventType
           is_public?: boolean
           max_attendees?: number | null
           current_attendees?: number
@@ -194,9 +203,9 @@ export interface Database {
           organizer?: string
           cost?: number | null
           images?: Json[]
-          agenda?: Json[] | null
+          agenda?: Json | null
           attendees?: Json[]
-          status?: 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
+          status?: EventStatus
           created_at?: string
           updated_at?: string
         }
@@ -237,11 +246,10 @@ export interface Database {
         Row: {
           id: string
           meeting_id: string
+          member_id: string
           member_name: string
           member_email: string
-          attendance_status: 'attending' | 'not_attending' | 'maybe'
-          guest_count: number
-          dietary_requirements: string | null
+          status: AttendanceStatus
           notes: string | null
           created_at: string
           updated_at: string
@@ -249,11 +257,10 @@ export interface Database {
         Insert: {
           id?: string
           meeting_id: string
+          member_id: string
           member_name: string
           member_email: string
-          attendance_status: 'attending' | 'not_attending' | 'maybe'
-          guest_count?: number
-          dietary_requirements?: string | null
+          status?: AttendanceStatus
           notes?: string | null
           created_at?: string
           updated_at?: string
@@ -261,11 +268,10 @@ export interface Database {
         Update: {
           id?: string
           meeting_id?: string
+          member_id?: string
           member_name?: string
           member_email?: string
-          attendance_status?: 'attending' | 'not_attending' | 'maybe'
-          guest_count?: number
-          dietary_requirements?: string | null
+          status?: AttendanceStatus
           notes?: string | null
           created_at?: string
           updated_at?: string
@@ -279,15 +285,233 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      membership_status: 'Active' | 'Inactive' | 'Guest'
-      meeting_type: 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
-      meeting_status: 'Scheduled' | 'Completed' | 'Cancelled'
-      event_type: 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
-      event_status: 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
-      attendance_status: 'attending' | 'not_attending' | 'maybe'
+      membership_status: MembershipStatus
+      meeting_type: MeetingType
+      meeting_status: MeetingStatus
+      event_type: EventType
+      event_status: EventStatus
+      attendance_status: AttendanceStatus
     }
     CompositeTypes: {
       [_ in never]: never
     }
   }
+}
+
+// Helpful type aliases for application use
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type Inserts<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
+export type Updates<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
+export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
+
+// Specific table types
+export type Member = Tables<'members'>
+export type Meeting = Tables<'meetings'>
+export type Event = Tables<'events'>
+export type Questionnaire = Tables<'questionnaires'>
+export type RSVP = Tables<'rsvps'>
+
+// Insert types for forms
+export type MemberInsert = Inserts<'members'>
+export type MeetingInsert = Inserts<'meetings'>
+export type EventInsert = Inserts<'events'>
+export type QuestionnaireInsert = Inserts<'questionnaires'>
+export type RSVPInsert = Inserts<'rsvps'>
+
+// Update types for edits
+export type MemberUpdate = Updates<'members'>
+export type MeetingUpdate = Updates<'meetings'>
+export type EventUpdate = Updates<'events'>
+export type QuestionnaireUpdate = Updates<'questionnaires'>
+export type RSVPUpdate = Updates<'rsvps'>
+
+// Extended types with computed properties
+export interface MemberWithDetails extends Member {
+  currentRole?: string
+  isOfficer?: boolean
+  pathwaysProgress?: number
+  totalAwards?: number
+  yearsActive?: number
+}
+
+export interface MeetingWithDetails extends Meeting {
+  speakersCount?: number
+  isUpcoming?: boolean
+  daysFromNow?: number
+  formattedDate?: string
+  formattedTime?: string
+}
+
+export interface EventWithDetails extends Event {
+  spotsRemaining?: number
+  isRegistrationOpen?: boolean
+  daysFromNow?: number
+  formattedDate?: string
+  formattedTime?: string
+  attendeesCount?: number
+}
+
+// Pathways-specific types
+export interface PathwaysTrack {
+  path: string
+  level: number
+  projects: PathwaysProject[]
+  completedProjects: number
+  totalProjects: number
+  progress: number
+}
+
+export interface PathwaysProject {
+  id: string
+  name: string
+  level: number
+  completed: boolean
+  completedDate?: string
+  objectives: string[]
+  duration: string
+  resources: string[]
+}
+
+// Meeting agenda types
+export interface MeetingAgenda {
+  openingCeremony: string
+  education: string
+  tableTopics: string
+  evaluations: string
+  reports: string
+  closing: string
+}
+
+// Meeting speaker types
+export interface MeetingSpeaker {
+  name: string
+  project: string
+  time: string
+  pathwaysPath: string
+  level: number
+  speechTitle: string
+  objectives: string[]
+  duration?: string
+  evaluator?: string
+}
+
+// Meeting roles types
+export interface MeetingRole {
+  role: string
+  member: string
+  description?: string
+  time?: string
+  duration?: string
+}
+
+// Awards types
+export interface Award {
+  name: string
+  dateEarned: string
+  level?: number
+  category?: string
+  description?: string
+}
+
+// Member role types
+export interface MemberRole {
+  role: string
+  startDate: string
+  endDate?: string
+  isActive: boolean
+  description?: string
+}
+
+// Achievement types
+export interface Achievement {
+  id: string
+  name: string
+  description: string
+  dateEarned: string
+  category: string
+  level?: number
+  points?: number
+}
+
+// Event attendee types
+export interface EventAttendee {
+  id: string
+  name: string
+  email: string
+  registrationDate: string
+  status: AttendanceStatus
+  notes?: string
+}
+
+// Form validation types
+export interface FormError {
+  field: string
+  message: string
+}
+
+export interface FormResponse<T = any> {
+  success: boolean
+  data?: T
+  errors?: FormError[]
+  message?: string
+}
+
+// API response types
+export interface ApiResponse<T = any> {
+  success: boolean
+  data?: T
+  error?: string
+  message?: string
+  count?: number
+}
+
+// Pagination types
+export interface PaginationParams {
+  page: number
+  limit: number
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+  search?: string
+}
+
+export interface PaginatedResponse<T> {
+  data: T[]
+  pagination: {
+    page: number
+    limit: number
+    total: number
+    totalPages: number
+    hasNext: boolean
+    hasPrevious: boolean
+  }
+}
+
+// Filter types
+export interface MemberFilters {
+  status?: MembershipStatus
+  role?: string
+  pathwaysLevel?: number
+  joinedAfter?: string
+  joinedBefore?: string
+  hasAwards?: boolean
+  isOfficer?: boolean
+}
+
+export interface MeetingFilters {
+  type?: MeetingType
+  status?: MeetingStatus
+  dateFrom?: string
+  dateTo?: string
+  theme?: string
+  location?: string
+}
+
+export interface EventFilters {
+  type?: EventType
+  status?: EventStatus
+  dateFrom?: string
+  dateTo?: string
+  isPublic?: boolean
+  hasSpots?: boolean
+  registrationRequired?: boolean
 }
