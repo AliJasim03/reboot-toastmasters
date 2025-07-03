@@ -1,102 +1,87 @@
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Home() {
+  const year = new Date().getFullYear();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    // Set the default text color and use the base body font (Source Sans 3)
+    <div className="flex flex-col min-h-screen font-body bg-fair-gray text-rich-black">
+      {/* --- HERO SECTION --- */}
+      <header className="bg-toastmasters-hero text-white py-10 flex flex-col items-center gap-4 text-center">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
+          src="/toastmasters-logo.png"
+          alt="Toastmasters International logo"
+          width={120}
+          height={120}
           priority
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+        {/* Use the brand-approved headline font */}
+        <h1 className="text-4xl sm:text-5xl font-bold font-heading tracking-tight text-balance">
+          Reboot Toastmasters Club
+        </h1>
+        <p className="text-yellow text-lg text-balance">
+          Where Leaders Are Made
+        </p>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* --- MAIN CONTENT --- */}
+      <main className="flex-1 flex flex-col items-center gap-12 p-8 text-center">
+        <div className="max-w-xl flex flex-col gap-6">
+          <p className="text-lg text-pretty">
+            Join us to practise public speaking, develop leadership skills, and have fun in a supportive environment.
+          </p>
+          <Link
+            href="/join"
+            className="inline-block rounded-md bg-maroon hover:bg-rich-maroon text-white px-8 py-3 font-semibold font-heading shadow-lg transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Visit as a Guest
+          </Link>
         </div>
+
+        {/* --- FULL TYPOGRAPHY SHOWCASE --- */}
+        <div className="w-full max-w-5xl mx-auto space-y-8 text-left p-6 bg-white border rounded-lg">
+          <h2 className="text-3xl font-bold font-heading text-center text-loyal mb-6">Typography Guide</h2>
+
+          {/* Primary Fonts */}
+          <section>
+            <h3 className="font-heading font-bold text-xl text-maroon">Primary Headline Font (`font-heading`)</h3>
+            <p className="font-heading text-4xl mt-2">The quick brown fox jumps over the lazy dog.</p>
+            <p className="text-sm text-gray-600 mt-1">Brand Alternate for Gotham: <span className="font-semibold">Montserrat</span></p>
+          </section>
+
+          <hr />
+
+          <section>
+            <h3 className="font-heading font-bold text-xl text-maroon">Primary Body Font (`font-body`)</h3>
+            <p className="font-body text-lg mt-2">The quick brown fox jumps over the lazy dog. This is the main text you will use for paragraphs and most content on the website. It is highly legible and brand-approved.</p>
+            <p className="text-sm text-gray-600 mt-1">Brand Alternate for Myriad Pro: <span className="font-semibold">Source Sans 3</span></p>
+          </section>
+
+          <hr />
+
+          {/* Script Fonts */}
+          <section>
+            <h3 className="font-heading font-bold text-xl text-maroon">Special Event Fonts</h3>
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="font-semibold">Corinthia (`font-script-corinthia`)</p>
+                <p className="font-script-corinthia text-5xl text-loyal">Club Anniversary!</p>
+              </div>
+              <div>
+                <p className="font-semibold">Luxurious Script (`font-script-luxurious`)</p>
+                <p className="font-script-luxurious text-5xl text-maroon">Gala Dinner</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Your other color/gradient showcases can remain here */}
+
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="bg-loyal py-4 text-center text-sm text-gray">
+        © {year} Reboot Toastmasters Club · Toastmasters International
       </footer>
     </div>
   );
