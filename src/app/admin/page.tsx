@@ -1,7 +1,7 @@
-// src/app/admin/page.tsx
+// Fixed admin dashboard with proper union type handling
 'use client'
 
-import { useDashboard } from '@/hooks/use-dashboard'
+import { useDashboard } from '@/lib/hooks/use-dashboard'
 import { Card, Loading, Badge } from '@/components/ui'
 import Link from 'next/link'
 
@@ -71,6 +71,25 @@ export default function AdminDashboard() {
       )
     }
   ]
+
+  // Helper function to get display title based on item type
+  const getItemTitle = (item: typeof upcomingItems[0]) => {
+    return item.itemType === 'meeting' ? (item as any).theme || 'Meeting' : (item as any).title
+  }
+
+  // Helper function to get display type based on item type
+  const getItemType = (item: typeof upcomingItems[0]) => {
+    return item.itemType === 'meeting' ? (item as any).type : (item as any).type
+  }
+
+  // Helper function to get time display
+  const getItemTime = (item: typeof upcomingItems[0]) => {
+    if (item.itemType === 'meeting') {
+      return (item as any).time || '7:00 PM'
+    } else {
+      return (item as any).start_time || '7:00 PM'
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -174,14 +193,14 @@ export default function AdminDashboard() {
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
                       <h4 className="text-sm font-medium text-gray-900">
-                        {item.theme || item.title}
+                        {getItemTitle(item)}
                       </h4>
                       <Badge variant="info" size="sm">
-                        {'type' in item ? item.type : 'Meeting'}
+                        {getItemType(item)}
                       </Badge>
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
-                      {new Date(item.date).toLocaleDateString()} at {item.time || '7:00 PM'}
+                      {new Date(item.date).toLocaleDateString()} at {getItemTime(item)}
                     </p>
                   </div>
                   <button className="text-loyal hover:text-blissful-blue">

@@ -1,4 +1,4 @@
-// src/app/admin/events/page.tsx
+// Fixed events admin page with correct field names
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -20,17 +20,17 @@ export default function AdminEventsPage() {
     title: '',
     description: '',
     date: '',
-    time: '19:00',
+    start_time: '19:00',
+    end_time: '21:00',
     location: '',
     type: 'Workshop' as EventType,
     status: 'Upcoming' as EventStatus,
     is_public: true,
     registration_required: false,
     max_attendees: null as number | null,
-    price: 'Free',
+    cost: null as number | null,
     registration_deadline: '',
-    contact_email: 'info@excellence-speakers.org',
-    notes: ''
+    organizer: 'info@reboot-toastmasters.org'
   })
 
   useEffect(() => {
@@ -39,17 +39,17 @@ export default function AdminEventsPage() {
         title: editingEvent.title || '',
         description: editingEvent.description || '',
         date: editingEvent.date?.split('T')[0] || '',
-        time: editingEvent.start_time || '19:00',
+        start_time: editingEvent.start_time || '19:00',
+        end_time: editingEvent.end_time || '21:00',
         location: editingEvent.location || '',
         type: editingEvent.type || 'Workshop',
         status: editingEvent.status || 'Upcoming',
         is_public: editingEvent.is_public ?? true,
         registration_required: editingEvent.registration_required ?? false,
         max_attendees: editingEvent.max_attendees,
-        price: editingEvent.cost?.toString() || 'Free',
+        cost: editingEvent.cost,
         registration_deadline: editingEvent.registration_deadline?.split('T')[0] || '',
-        contact_email: editingEvent.organizer || 'info@excellence-speakers.org',
-        notes: editingEvent.description || ''
+        organizer: editingEvent.organizer || 'info@reboot-toastmasters.org'
       })
     }
   }, [editingEvent])
@@ -61,12 +61,24 @@ export default function AdminEventsPage() {
 
     try {
       const eventData = {
-        ...formData,
-        date: new Date(`${formData.date}T${formData.time}`).toISOString(),
-        registration_deadline: formData.registration_deadline
-          ? new Date(`${formData.registration_deadline}T23:59`).toISOString()
-          : null,
-        max_attendees: formData.max_attendees || null
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        start_time: formData.start_time,
+        end_time: formData.end_time,
+        location: formData.location,
+        type: formData.type,
+        status: formData.status,
+        is_public: formData.is_public,
+        registration_required: formData.registration_required,
+        max_attendees: formData.max_attendees,
+        cost: formData.cost,
+        registration_deadline: formData.registration_deadline || null,
+        organizer: formData.organizer,
+        current_attendees: 0,
+        images: [],
+        agenda: null,
+        attendees: []
       }
 
       if (editingEvent) {
@@ -86,17 +98,17 @@ export default function AdminEventsPage() {
         title: '',
         description: '',
         date: '',
-        time: '19:00',
+        start_time: '19:00',
+        end_time: '21:00',
         location: '',
         type: 'Workshop',
         status: 'Upcoming',
         is_public: true,
         registration_required: false,
         max_attendees: null,
-        price: 'Free',
+        cost: null,
         registration_deadline: '',
-        contact_email: 'info@excellence-speakers.org',
-        notes: ''
+        organizer: 'info@reboot-toastmasters.org'
       })
 
       refreshEvents()
@@ -133,20 +145,20 @@ export default function AdminEventsPage() {
       'Upcoming': 'primary',
       'Ongoing': 'warning',
       'Completed': 'success',
-      'Cancelled': 'danger',
-      'Postponed': 'warning'
+      'Cancelled': 'danger'
     } as const
     return colors[status] || 'info'
   }
 
   const getTypeColor = (type: EventType) => {
     const colors = {
+      'Club Meeting': 'bg-blue-100 text-blue-800',
       'Contest': 'bg-red-100 text-red-800',
-      'Workshop': 'bg-blue-100 text-blue-800',
-      'Social': 'bg-green-100 text-green-800',
-      'Training': 'bg-purple-100 text-purple-800',
+      'Training': 'bg-green-100 text-green-800',
+      'Social': 'bg-yellow-100 text-yellow-800',
+      'Open House': 'bg-purple-100 text-purple-800',
       'Conference': 'bg-indigo-100 text-indigo-800',
-      'Other': 'bg-gray-100 text-gray-800'
+      'Workshop': 'bg-teal-100 text-teal-800'
     }
     return colors[type] || 'bg-gray-100 text-gray-800'
   }
@@ -221,7 +233,6 @@ export default function AdminEventsPage() {
               <option value="Ongoing">Ongoing</option>
               <option value="Completed">Completed</option>
               <option value="Cancelled">Cancelled</option>
-              <option value="Postponed">Postponed</option>
             </select>
           </div>
           <div>
@@ -231,12 +242,13 @@ export default function AdminEventsPage() {
               onChange={(e) => setFilters({ ...filters, type: e.target.value || undefined })}
             >
               <option value="">All Types</option>
+              <option value="Club Meeting">Club Meeting</option>
               <option value="Contest">Contest</option>
-              <option value="Workshop">Workshop</option>
-              <option value="Social">Social</option>
               <option value="Training">Training</option>
+              <option value="Social">Social</option>
+              <option value="Open House">Open House</option>
               <option value="Conference">Conference</option>
-              <option value="Other">Other</option>
+              <option value="Workshop">Workshop</option>
             </select>
           </div>
           <div>
@@ -265,7 +277,7 @@ export default function AdminEventsPage() {
       {/* Events List */}
       <div className="space-y-4">
         {events.map((event) => {
-          const { date, time } = formatDateTime(event.date, event.time)
+          const { date, time } = formatDateTime(event.date, event.start_time)
           return (
             <Card key={event.id} className="hover-lift">
               <div className="flex items-start justify-between">
@@ -318,8 +330,8 @@ export default function AdminEventsPage() {
 
                   <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-600">Price: </span>
-                      <span className="font-medium">{event.price}</span>
+                      <span className="text-gray-600">Cost: </span>
+                      <span className="font-medium">{event.cost ? `$${event.cost}` : 'Free'}</span>
                     </div>
                     {event.max_attendees && (
                       <div>
@@ -339,15 +351,9 @@ export default function AdminEventsPage() {
                     )}
                     <div>
                       <span className="text-gray-600">Contact: </span>
-                      <span className="font-medium">{event.contact_email}</span>
+                      <span className="font-medium">{event.organizer}</span>
                     </div>
                   </div>
-
-                  {event.notes && (
-                    <div className="mt-3 pt-3 border-t border-gray-200">
-                      <p className="text-sm text-gray-700">{event.notes}</p>
-                    </div>
-                  )}
                 </div>
 
                 <div className="flex flex-col space-y-2 ml-4">
@@ -439,7 +445,7 @@ export default function AdminEventsPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Date *
@@ -455,13 +461,26 @@ export default function AdminEventsPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Time *
+                      Start Time *
                     </label>
                     <input
                       type="time"
                       required
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                      value={formData.start_time}
+                      onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      End Time *
+                    </label>
+                    <input
+                      type="time"
+                      required
+                      value={formData.end_time}
+                      onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
                     />
                   </div>
@@ -491,12 +510,13 @@ export default function AdminEventsPage() {
                       onChange={(e) => setFormData({ ...formData, type: e.target.value as EventType })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
                     >
+                      <option value="Club Meeting">Club Meeting</option>
                       <option value="Contest">Contest</option>
-                      <option value="Workshop">Workshop</option>
-                      <option value="Social">Social</option>
                       <option value="Training">Training</option>
+                      <option value="Social">Social</option>
+                      <option value="Open House">Open House</option>
                       <option value="Conference">Conference</option>
-                      <option value="Other">Other</option>
+                      <option value="Workshop">Workshop</option>
                     </select>
                   </div>
 
@@ -513,7 +533,6 @@ export default function AdminEventsPage() {
                       <option value="Ongoing">Ongoing</option>
                       <option value="Completed">Completed</option>
                       <option value="Cancelled">Cancelled</option>
-                      <option value="Postponed">Postponed</option>
                     </select>
                   </div>
                 </div>
@@ -521,14 +540,16 @@ export default function AdminEventsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Price
+                      Cost (Optional)
                     </label>
                     <input
-                      type="text"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={formData.cost || ''}
+                      onChange={(e) => setFormData({ ...formData, cost: e.target.value ? Number(e.target.value) : null })}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
-                      placeholder="e.g., Free, $25, $50 for non-members"
+                      placeholder="Leave blank for free event"
                     />
                   </div>
 
@@ -549,12 +570,12 @@ export default function AdminEventsPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Contact Email
+                    Organizer Contact
                   </label>
                   <input
                     type="email"
-                    value={formData.contact_email}
-                    onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
+                    value={formData.organizer}
+                    onChange={(e) => setFormData({ ...formData, organizer: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
                   />
                 </div>
@@ -597,19 +618,6 @@ export default function AdminEventsPage() {
                       Registration Required
                     </label>
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Additional Notes
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-loyal"
-                    placeholder="Special instructions, preparation requirements, or other important details..."
-                  />
                 </div>
 
                 <div className="flex space-x-3 pt-4">

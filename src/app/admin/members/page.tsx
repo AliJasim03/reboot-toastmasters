@@ -1,8 +1,8 @@
-// src/app/admin/members/page.tsx
+// Fixed members admin page with correct types
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useMembers } from '@/lib/hooks/useMembers'
+import { useMembers } from '@/lib/hooks/use-members'  // Fixed import path
 import { memberOps } from '@/lib/supabase'
 import { Card, Button, Badge, Loading, Alert } from '@/components/ui'
 import type { Member, MembershipStatus, PathwaysPath } from '@/lib/database.types'
@@ -25,7 +25,7 @@ export default function AdminMembersPage() {
     pathways_level: 1,
     join_date: new Date().toISOString().split('T')[0],
     bio: '',
-    roles: []
+    roles: [] as any[]
   })
 
   useEffect(() => {
@@ -108,8 +108,9 @@ export default function AdminMembersPage() {
     const colors = {
       'Active': 'success',
       'Inactive': 'warning',
+      'Guest': 'info',
       'Suspended': 'danger',
-      'Former': 'info'
+      'Former': 'secondary'
     } as const
     return colors[status] || 'info'
   }
@@ -178,6 +179,7 @@ export default function AdminMembersPage() {
               <option value="">All Statuses</option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
+              <option value="Guest">Guest</option>
               <option value="Suspended">Suspended</option>
               <option value="Former">Former</option>
             </select>
@@ -238,15 +240,17 @@ export default function AdminMembersPage() {
             </div>
 
             <div className="mt-4 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Pathways:</span>
-                <span className={`px-2 py-1 rounded text-xs ${getPathwaysBadgeColor(member.pathways_path)}`}>
-                  {member.pathways_path}
-                </span>
-              </div>
+              {member.pathways_path && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Pathways:</span>
+                  <span className={`px-2 py-1 rounded text-xs ${getPathwaysBadgeColor(member.pathways_path)}`}>
+                    {member.pathways_path}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Level:</span>
-                <span className="font-medium">Level {member.pathways_level}</span>
+                <span className="font-medium">Level {member.pathways_level || 1}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Speeches:</span>
@@ -382,6 +386,7 @@ export default function AdminMembersPage() {
                     >
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
+                      <option value="Guest">Guest</option>
                       <option value="Suspended">Suspended</option>
                       <option value="Former">Former</option>
                     </select>

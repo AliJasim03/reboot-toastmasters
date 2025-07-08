@@ -1,3 +1,4 @@
+// Updated database types to match schema
 export type Json =
   | string
   | number
@@ -6,13 +7,24 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-// Database enums
-export type MembershipStatus = 'Active' | 'Inactive' | 'Guest'
+// Database enums - Updated to match actual schema
+export type MembershipStatus = 'Active' | 'Inactive' | 'Guest' | 'Suspended' | 'Former'
 export type MeetingType = 'Regular Meeting' | 'Contest Meeting' | 'Special Event' | 'Officer Training' | 'Demo Meeting'
-export type MeetingStatus = 'Scheduled' | 'Completed' | 'Cancelled'
+export type MeetingStatus = 'Scheduled' | 'Completed' | 'Cancelled' | 'Postponed'
 export type EventType = 'Club Meeting' | 'Contest' | 'Training' | 'Social' | 'Open House' | 'Conference' | 'Workshop'
 export type EventStatus = 'Upcoming' | 'Ongoing' | 'Completed' | 'Cancelled'
 export type AttendanceStatus = 'attending' | 'not_attending' | 'maybe'
+
+// Pathways paths for Toastmasters
+export type PathwaysPath =
+  | 'Leadership Development'
+  | 'Presentation Mastery'
+  | 'Persuasive Influence'
+  | 'Engaging Humor'
+  | 'Strategic Relationships'
+  | 'Team Collaboration'
+  | 'Innovative Planning'
+  | 'Visionary Communication'
 
 // Database schema interface
 export interface Database {
@@ -28,6 +40,7 @@ export interface Database {
           membership_status: MembershipStatus
           toastmasters_id: string | null
           pathways_level: number | null
+          pathways_path: PathwaysPath | null  // Added pathways_path field
           awards: Json[]
           roles: Json[]
           profile_image: string | null
@@ -35,6 +48,7 @@ export interface Database {
           communication_track: Json | null
           leadership_track: Json | null
           achievements: Json[]
+          completed_speeches: number | null  // Added computed field
           created_at: string
           updated_at: string
         }
@@ -47,6 +61,7 @@ export interface Database {
           membership_status?: MembershipStatus
           toastmasters_id?: string | null
           pathways_level?: number | null
+          pathways_path?: PathwaysPath | null  // Added pathways_path field
           awards?: Json[]
           roles?: Json[]
           profile_image?: string | null
@@ -54,6 +69,7 @@ export interface Database {
           communication_track?: Json | null
           leadership_track?: Json | null
           achievements?: Json[]
+          completed_speeches?: number | null  // Added computed field
           created_at?: string
           updated_at?: string
         }
@@ -66,6 +82,7 @@ export interface Database {
           membership_status?: MembershipStatus
           toastmasters_id?: string | null
           pathways_level?: number | null
+          pathways_path?: PathwaysPath | null  // Added pathways_path field
           awards?: Json[]
           roles?: Json[]
           profile_image?: string | null
@@ -73,6 +90,7 @@ export interface Database {
           communication_track?: Json | null
           leadership_track?: Json | null
           achievements?: Json[]
+          completed_speeches?: number | null  // Added computed field
           created_at?: string
           updated_at?: string
         }
@@ -81,6 +99,7 @@ export interface Database {
         Row: {
           id: string
           date: string
+          time: string  // Added missing time field
           theme: string
           type: MeetingType
           location: string
@@ -93,6 +112,8 @@ export interface Database {
           highlights: Json[]
           photos: Json[]
           agenda: Json
+          meeting_roles: Json  // Added missing field
+          notes: string | null  // Added missing field
           status: MeetingStatus
           meeting_minutes: string | null
           created_at: string
@@ -101,6 +122,7 @@ export interface Database {
         Insert: {
           id?: string
           date: string
+          time?: string  // Added missing time field
           theme: string
           type?: MeetingType
           location: string
@@ -113,6 +135,8 @@ export interface Database {
           highlights?: Json[]
           photos?: Json[]
           agenda?: Json
+          meeting_roles?: Json  // Added missing field
+          notes?: string | null  // Added missing field
           status?: MeetingStatus
           meeting_minutes?: string | null
           created_at?: string
@@ -121,6 +145,7 @@ export interface Database {
         Update: {
           id?: string
           date?: string
+          time?: string  // Added missing time field
           theme?: string
           type?: MeetingType
           location?: string
@@ -133,6 +158,8 @@ export interface Database {
           highlights?: Json[]
           photos?: Json[]
           agenda?: Json
+          meeting_roles?: Json  // Added missing field
+          notes?: string | null  // Added missing field
           status?: MeetingStatus
           meeting_minutes?: string | null
           created_at?: string
@@ -304,7 +331,7 @@ export type Inserts<T extends keyof Database['public']['Tables']> = Database['pu
 export type Updates<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
 export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
 
-// Specific table types
+// Specific table types - These are the missing exports
 export type Member = Tables<'members'>
 export type Meeting = Tables<'meetings'>
 export type Event = Tables<'events'>
@@ -494,24 +521,21 @@ export interface MemberFilters {
   joinedAfter?: string
   joinedBefore?: string
   hasAwards?: boolean
-  isOfficer?: boolean
 }
 
 export interface MeetingFilters {
-  type?: MeetingType
   status?: MeetingStatus
+  type?: MeetingType
   dateFrom?: string
   dateTo?: string
-  theme?: string
   location?: string
 }
 
 export interface EventFilters {
-  type?: EventType
   status?: EventStatus
+  type?: EventType
   dateFrom?: string
   dateTo?: string
   isPublic?: boolean
-  hasSpots?: boolean
   registrationRequired?: boolean
 }
