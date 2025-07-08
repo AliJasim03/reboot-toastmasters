@@ -1,67 +1,64 @@
-/* src/* src/app/globals.css - UPDATED FOR FULL BRAND COMPLIANCE */
+/* src/app/globals.css - BRAND COMPLIANT GRADIENTS FIXED */
 
 @import "tailwindcss";
 
 @theme {
-    /* -- Colors (Verified & Expanded) -- */
+    /* -- OFFICIAL TOASTMASTERS COLORS -- */
     --color-loyal: #004165;      /* Loyal Blue */
+    --color-blissful-blue: #006094; /* Blissful Blue */
     --color-maroon: #772432;     /* True Maroon */
+    --color-rich-maroon: #781327; /* Rich Maroon */
+    --color-deep-maroon: #3B0104; /* Deep Maroon */
     --color-gray: #A9B2B1;       /* Cool Gray */
+    --color-fair-gray: #F5F5F5;  /* Fair Gray */
     --color-yellow: #F2DF74;     /* Happy Yellow */
-    --color-rich-black: #231F20;  /* ADDED: Official Rich Black */
-    /* Gradient/Accent Colors (Verified) */
-    --color-blissful-blue: #006094;
-    --color-rich-maroon: #781327;
-    --color-deep-maroon: #3B0104;
-    --color-fair-gray: #F5F5F5;
+    --color-rich-black: #231F20; /* Rich Black */
 
-    /* -- Gradients (Verified) -- */
+    /* -- BRAND COMPLIANT GRADIENTS (SINGLE COLOR FAMILIES ONLY) -- */
     --background-image-loyal-blue-gradient: linear-gradient(180deg, #004165 0%, #006094 100%);
     --background-image-true-maroon-gradient: linear-gradient(180deg, #3B0104 0%, #781327 100%);
     --background-image-cool-gray-gradient: linear-gradient(180deg, #A9B2B1 0%, #F5F5F5 100%);
-    --background-image-toastmasters-hero: linear-gradient(135deg, #004165 0%, #006094 50%, #772432 100%);
 
-    /* -- Animations & Keyframes (Unchanged) -- */
+    /* Hero sections should use single-color gradients only */
+    --background-image-hero-loyal: linear-gradient(135deg, #004165 0%, #006094 100%);
+    --background-image-hero-maroon: linear-gradient(135deg, #3B0104 0%, #781327 100%);
+
+    /* -- ANIMATIONS -- */
     --animation-fade-in: fadeIn 0.5s ease-in-out;
     --animation-fade-up: fadeUp 0.5s ease-in-out;
     --animation-slide-in: slideIn 0.3s ease-in-out;
 }
 
-/* --- Rest of file is unchanged --- */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
 }
 
-/* You can still keep your custom :root variables and layers */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 :root {
     --header-height: 4rem;
     --mobile-header-height: 3.5rem;
     --sidebar-width: 16rem;
+    --admin-sidebar-width: 14rem;
 }
 
 @layer utilities {
@@ -71,10 +68,55 @@
     /* Font Utilities */
     .font-heading { font-family: var(--font-montserrat); }
     .font-body   { font-family: var(--font-source-sans-3); }
-    .font-sans   { font-family: var(--font-source-sans-3); } /* Alias for body */
+    .font-sans   { font-family: var(--font-source-sans-3); }
 
     .font-script-corinthia  { font-family: var(--font-corinthia); }
     .font-script-luxurious  { font-family: var(--font-luxurious-script); }
+
+    /* Loading States */
+    .animate-pulse-slow { animation: pulse 2s infinite; }
+    .animate-spin-slow { animation: spin 2s linear infinite; }
+
+    /* Brand Compliant Backgrounds */
+    .bg-loyal-blue-gradient { background-image: var(--background-image-loyal-blue-gradient); }
+    .bg-true-maroon-gradient { background-image: var(--background-image-true-maroon-gradient); }
+    .bg-cool-gray-gradient { background-image: var(--background-image-cool-gray-gradient); }
+    .bg-hero-loyal { background-image: var(--background-image-hero-loyal); }
+    .bg-hero-maroon { background-image: var(--background-image-hero-maroon); }
+
+    /* Admin Panel Styles */
+    .admin-sidebar-shadow { box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); }
+    .admin-content-area { margin-left: var(--admin-sidebar-width); }
+
+    /* Data Loading States */
+    .skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    /* Interactive States */
+    .hover-lift { transition: transform 0.2s ease; }
+    .hover-lift:hover { transform: translateY(-2px); }
+
+    .focus-ring {
+        @apply focus:outline-none focus:ring-2 focus:ring-loyal focus:ring-offset-2;
+    }
+
+    /* Error States */
+    .error-state { @apply border-red-300 bg-red-50 text-red-900; }
+    .success-state { @apply border-green-300 bg-green-50 text-green-900; }
+    .warning-state { @apply border-yellow-300 bg-yellow-50 text-yellow-900; }
 }
 
-
+/* Responsive Admin Layout */
+@media (max-width: 1024px) {
+    .admin-content-area { margin-left: 0; }
+    .admin-sidebar { transform: translateX(-100%); }
+    .admin-sidebar.open { transform: translateX(0); }
+}

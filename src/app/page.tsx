@@ -1,88 +1,122 @@
+// src/app/page.tsx - Updated Homepage with Real Data
 import Link from "next/link";
 import Image from "next/image";
+import PublicLayout from "@/components/PublicLayout";
+import { ClubStatsSection } from "@/components/ClubStatsSection";
+import { UpcomingMeetingsSection } from "@/components/meetings/UpcomingMeetingsSection";
 
 export default function Home() {
-  const year = new Date().getFullYear();
-
   return (
-    // Set the default text color and use the base body font (Source Sans 3)
-    <div className="flex flex-col min-h-screen font-body bg-fair-gray text-rich-black">
-      {/* --- HERO SECTION --- */}
-      <header className="bg-toastmasters-hero text-white py-10 flex flex-col items-center gap-4 text-center">
-        <Image
-          src="/toastmasters-logo.png"
-          alt="Toastmasters International logo"
-          width={120}
-          height={120}
-          priority
-        />
-        {/* Use the brand-approved headline font */}
-        <h1 className="text-4xl sm:text-5xl font-bold font-heading tracking-tight text-balance">
-          Reboot Toastmasters Club
-        </h1>
-        <p className="text-yellow text-lg text-balance">
-          Where Leaders Are Made
-        </p>
-      </header>
+    <PublicLayout>
+      <div className="font-body">
+        {/* Hero Section - Brand Compliant */}
+        <section className="bg-hero-loyal text-white py-16 lg:py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <Image
+              src="/toastmasters-logo.png"
+              alt="Toastmasters International logo"
+              width={120}
+              height={120}
+              priority
+              className="mx-auto mb-6"
+            />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight text-balance mb-4">
+              Reboot Toastmasters Club
+            </h1>
+            <p className="text-yellow text-lg sm:text-xl text-balance mb-8">
+              Where Leaders Are Made
+            </p>
+            <p className="text-lg sm:text-xl text-gray-200 text-balance mb-8 max-w-2xl mx-auto">
+              Join us to practice public speaking, develop leadership skills, and have fun in a supportive environment.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/join"
+                className="inline-block rounded-md bg-maroon hover:bg-rich-maroon text-white px-8 py-3 font-semibold font-heading shadow-lg transition-colors"
+              >
+                Visit as a Guest
+              </Link>
+              <Link
+                href="/about"
+                className="inline-block rounded-md border-2 border-white text-white hover:bg-white hover:text-loyal px-8 py-3 font-semibold font-heading transition-colors"
+              >
+                Learn More
+              </Link>
+            </div>
+          </div>
+        </section>
 
-      {/* --- MAIN CONTENT --- */}
-      <main className="flex-1 flex flex-col items-center gap-12 p-8 text-center">
-        <div className="max-w-xl flex flex-col gap-6">
-          <p className="text-lg text-pretty">
-            Join us to practise public speaking, develop leadership skills, and have fun in a supportive environment.
-          </p>
-          <Link
-            href="/join"
-            className="inline-block rounded-md bg-maroon hover:bg-rich-maroon text-white px-8 py-3 font-semibold font-heading shadow-lg transition-colors"
-          >
-            Visit as a Guest
-          </Link>
-        </div>
+        {/* Club Stats Section with Real Data */}
+        <ClubStatsSection />
 
-        {/* --- FULL TYPOGRAPHY SHOWCASE --- */}
-        <div className="w-full max-w-5xl mx-auto space-y-8 text-left p-6 bg-white border rounded-lg">
-          <h2 className="text-3xl font-bold font-heading text-center text-loyal mb-6">Typography Guide</h2>
+        {/* Features Section */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold font-heading text-loyal mb-4">
+                Why Choose Toastmasters?
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Develop the skills you need to communicate effectively and lead with confidence.
+              </p>
+            </div>
 
-          {/* Primary Fonts */}
-          <section>
-            <h3 className="font-heading font-bold text-xl text-maroon">Primary Headline Font (`font-heading`)</h3>
-            <p className="font-heading text-4xl mt-2">The quick brown fox jumps over the lazy dog.</p>
-            <p className="text-sm text-gray-600 mt-1">Brand Alternate for Gotham: <span className="font-semibold">Montserrat</span></p>
-          </section>
-
-          <hr />
-
-          <section>
-            <h3 className="font-heading font-bold text-xl text-maroon">Primary Body Font (`font-body`)</h3>
-            <p className="font-body text-lg mt-2">The quick brown fox jumps over the lazy dog. This is the main text you will use for paragraphs and most content on the website. It is highly legible and brand-approved.</p>
-            <p className="text-sm text-gray-600 mt-1">Brand Alternate for Myriad Pro: <span className="font-semibold">Source Sans 3</span></p>
-          </section>
-
-          <hr />
-
-          {/* Script Fonts */}
-          <section>
-            <h3 className="font-heading font-bold text-xl text-maroon">Special Event Fonts</h3>
-            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="font-semibold">Corinthia (`font-script-corinthia`)</p>
-                <p className="font-script-corinthia text-5xl text-loyal">Club Anniversary!</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center p-6 rounded-lg bg-fair-gray hover-lift">
+                <div className="w-16 h-16 bg-loyal rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                  </svg>
+                </div>
+                <h3 className="font-heading font-bold text-xl text-loyal mb-2">Public Speaking</h3>
+                <p className="text-gray-600">Practice and improve your presentation skills in a supportive environment.</p>
               </div>
-              <div>
-                <p className="font-semibold">Luxurious Script (`font-script-luxurious`)</p>
-                <p className="font-script-luxurious text-5xl text-maroon">Gala Dinner</p>
+
+              <div className="text-center p-6 rounded-lg bg-fair-gray hover-lift">
+                <div className="w-16 h-16 bg-maroon rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </div>
+                <h3 className="font-heading font-bold text-xl text-maroon mb-2">Leadership</h3>
+                <p className="text-gray-600">Develop leadership skills through club roles and project management.</p>
+              </div>
+
+              <div className="text-center p-6 rounded-lg bg-fair-gray hover-lift">
+                <div className="w-16 h-16 bg-yellow rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-rich-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m3 5.197V9a3 3 0 00-6 0v8.001l2-1 2 1z"></path>
+                  </svg>
+                </div>
+                <h3 className="font-heading font-bold text-xl text-rich-black mb-2">Personal Growth</h3>
+                <p className="text-gray-600">Build confidence and achieve your personal and professional goals.</p>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
-        {/* Your other color/gradient showcases can remain here */}
+        {/* Upcoming Meetings Section with Real Data */}
+        <UpcomingMeetingsSection />
 
-      </main>
-
-      <footer className="bg-loyal py-4 text-center text-sm text-gray">
-        © {year} Reboot Toastmasters Club · Toastmasters International
-      </footer>
-    </div>
+        {/* CTA Section */}
+        <section className="py-16 bg-maroon text-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold font-heading mb-4">
+              Ready to Begin Your Journey?
+            </h2>
+            <p className="text-lg text-gray-200 mb-8">
+              Take the first step towards becoming a confident speaker and effective leader.
+              Visit us as a guest – no commitment required!
+            </p>
+            <Link
+              href="/join"
+              className="inline-block rounded-md bg-yellow hover:bg-yellow text-rich-black px-8 py-3 font-bold font-heading shadow-lg transition-colors hover:shadow-xl"
+            >
+              Visit Our Next Meeting
+            </Link>
+          </div>
+        </section>
+      </div>
+    </PublicLayout>
   );
 }
